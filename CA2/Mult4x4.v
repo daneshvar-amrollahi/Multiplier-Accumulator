@@ -58,11 +58,11 @@ module CU4x4(clk, rst, start, init0, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, done
     assign ld_a = (~ps[2] & ~ps[1] & ps[0]);
     assign ld_b = (~ps[2] & ~ps[1] & ps[0]);
     assign init0 = (~ps[2] & ~ps[1] & ps[0]);
-    assign sel_a = (ps[2] & ~ps[1] & ps[0]) | (ps[2] & ps[1] & ~ps[0]);
+    assign sel_a = (ps[2] & ~ps[1] & ps[0]) | (ps[2] & ~ps[1] & ~ps[0]);
     assign sel_b = (ps[2] & ~ps[1] & ps[0]) | (~ps[2] & ps[1] & ps[0]);
     assign sel_p[0] = (~ps[2] & ps[1] & ps[0]) | (ps[2] & ~ps[1] & ~ps[0]);
     assign sel_p[1] = (~ps[2] & ps[1] & ~ps[0]);
-    assign ld_r = (ps[2] & ~ps[1] & ps[0]);
+    assign ld_r = (~ps[2] & ps[1] & ~ps[0]) | (~ps[2] & ps[1] & ps[0]) | (ps[2] & ~ps[1] & ~ps[0]) | (ps[2] & ~ps[1] & ps[0]);
 endmodule
 
 module Mult4x4(clk, rst, start, done, a, b, out);
@@ -94,25 +94,19 @@ module Mult4x4_TB();
     end
     
     initial begin
-        //(a, b) * (c, d) = (a + bj)(c + dj) += (ac - bd, ad + bc)
-        //0 <= a, b, c, d <= 3
-
-        //(2, 2) * (1, 2) = (-2, 6)
-        //(2, 3) * (2, 1) = (1, 8)
-        //(1, 0) * (1, 3) = (1, 3)
-        start = 1; rst = 1; #25; rst = 0; #5; //start = 0;
-        a = {2'b10, 2'b10};
-        b = {2'b01, 2'b10};
+        start = 1; rst = 1; #25; rst = 0; #25; start = 0;
+        a = {4'd8};
+        b = {4'd3};
         #500;
 
-        start = 1; rst = 1; #25; rst = 0; #5; start = 0;
-        a = {2'd2, 2'd3};
-        b = {2'd2, 2'd1};
+        start = 1; rst = 1; #25; rst = 0; #25; start = 0;
+        a = {4'd11};
+        b = {4'd6};
         #500;
 
-        start = 1; rst = 1; #25; rst = 0; #5; start = 0;
-        a = {2'd1, 2'd0};
-        b = {2'd1, 2'd3};
+        start = 1; rst = 1; #25; rst = 0; #25; start = 0;
+        a = {4'd5};
+        b = {4'd13};
         #500;
         $stop;
     end
