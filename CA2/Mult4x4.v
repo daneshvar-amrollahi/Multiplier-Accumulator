@@ -1,10 +1,9 @@
-module DP4x4(clk, rst, a, b, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, init0, done, out);
+module DP4x4(clk, rst, a, b, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, init0, out);
     input clk, rst;
     input [3:0] a, b;
     input ld_a, ld_b, sel_a, sel_b;
     input [1:0] sel_p;
     input ld_r, init0;
-    output done;
     output [7:0] out;
 
     wire [3:0] a_out, b_out;
@@ -42,9 +41,9 @@ module CU4x4(clk, rst, start, init0, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, done
     reg[2:0] ps; //ns: D2, D1, D0  ps: V2, V1, V0
     wire [2:0] ns;
     
-    assign ns[2] = (~ps[2] & ps[1] & ps[0]) | (~ps[2] & ~ps[1] & ~ps[0]);
-    assign ns[1] = (~ps[2] & ~ps[1] & ps[0]) | (~ps[2] & ~ps[1] & ~ps[0]);
-    assign ns[0] = (~ps[2] & ~ps[0] & start) | (~ps[2] & ~ps[1] & ~ps[0]) | (ps[2] & ~ps[0] & ~ps[1]);
+    assign ns[2] = (~ps[2] & ps[1] & ps[0]) | (ps[2] & ~ps[1] & ~ps[0]);
+    assign ns[1] = (~ps[2] & ~ps[1] & ps[0]) | (~ps[2] & ps[1] & ~ps[0]);
+    assign ns[0] = (~ps[2] & ~ps[0] & start) | (~ps[2] & ps[1] & ~ps[0]) | (ps[2] & ~ps[1] & ~ps[0]);
 
     always @(posedge clk, posedge rst)
     begin
@@ -76,7 +75,7 @@ module Mult4x4(clk, rst, start, done, a, b, out);
     wire [1:0] sel_p;
 
     DP4x4 data_path(.clk(clk), .rst(rst), .a(a), .b(b), .ld_a(ld_a), .ld_b(ld_b), 
-                    .sel_a(sel_a), .sel_b(sel_b), .sel_p(sel_p), .ld_r(ld_r), .init0(init0), .done(done), .out(out));
+                    .sel_a(sel_a), .sel_b(sel_b), .sel_p(sel_p), .ld_r(ld_r), .init0(init0), .out(out));
 
     CU4x4 controller(clk, rst, start, init0, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, done);
 
@@ -84,32 +83,38 @@ endmodule
 
 module Mult4x4_TB();
     reg [3:0] a, b;
-    reg start, clk, rst;
+    reg start, clk = 1, rst;
     wire [7:0] out;
     wire done;
 
+    Mult4x4 mut(clk, rst, start, done, a, b, out);
+    
+    always begin
+        #10; clk = ~clk;
+    end
+    
     initial begin
-        start = 1;
-        repeat(100) begin
-            clk = 1; #10; clk = 0; #10;
-        end
-
         //(a, b) * (c, d) = (a + bj)(c + dj) += (ac - bd, ad + bc)
         //0 <= a, b, c, d <= 3
 
         //(2, 2) * (1, 2) = (-2, 6)
         //(2, 3) * (2, 1) = (1, 8)
         //(1, 0) * (1, 3) = (1, 3)
-
+        start = 1; rst = 1; #25; rst = 0; #5; //start = 0;
         a = {2'b10, 2'b10};
         b = {2'b01, 2'b10};
-        #50;
+        #500;
+
+        start = 1; rst = 1; #25; rst = 0; #5; start = 0;
         a = {2'd2, 2'd3};
         b = {2'd2, 2'd1};
-        #50;
+        #500;
+
+        start = 1; rst = 1; #25; rst = 0; #5; start = 0;
         a = {2'd1, 2'd0};
         b = {2'd1, 2'd3};
-        #50;
+        #500;
+        $stop;
     end
 
     
