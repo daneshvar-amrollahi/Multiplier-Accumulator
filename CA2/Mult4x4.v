@@ -11,8 +11,8 @@ module DP4x4(clk, rst, a, b, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, init0, out);
     register #(.N(4)) reg_b(.clk(clk), .rst(rst), .ld(ld_b), .inREG(b), .outREG(b_out), .init0(0));  
     
     wire [1:0] mux_a_out, mux_b_out;
-    Mux2to1 #(2) mux_a(.in1(a[1:0]), .in2(a[3:2]), .sel(sel_a), .outMUX(mux_a_out));
-    Mux2to1 #(2) mux_b(.in1(b[1:0]), .in2(b[3:2]), .sel(sel_b), .outMUX(mux_b_out));
+    Mux2to1 #(2) mux_a(.in1(a_out[1:0]), .in2(a_out[3:2]), .sel(sel_a), .outMUX(mux_a_out));
+    Mux2to1 #(2) mux_b(.in1(b_out[1:0]), .in2(b_out[3:2]), .sel(sel_b), .outMUX(mux_b_out));
 
     wire [3:0] mult2x2_out;
     Mult2x2 mul2x2(.A(mux_a_out), .B(mux_b_out), .C(mult2x2_out));
