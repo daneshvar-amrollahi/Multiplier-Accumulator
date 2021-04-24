@@ -3,5 +3,5 @@ module Mux2to1 #(parameter N = 32)(in1, in2, sel, outMUX);
     input 			sel; 
     output	[N-1:0] outMUX;
 
-    assign outMux = (sel) ? in2 : in1;
+    assign outMUX = (sel) ? in2 : in1;
 endmodule
