@@ -34,7 +34,7 @@ module DP4x4(clk, rst, a, b, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, init0, done,
 
 endmodule
 
-module CU4x4(clk, rst, start, init0, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, done)
+module CU4x4(clk, rst, start, init0, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, done);
     input clk, rst, start;
     output init0, ld_a, ld_b, sel_a, sel_b, ld_r, done;
     output [1:0] sel_p;
@@ -66,7 +66,7 @@ module CU4x4(clk, rst, start, init0, ld_a, ld_b, sel_a, sel_b, sel_p, ld_r, done
     assign ld_r = (ps[2] & ~ps[1] & ps[0]);
 endmodule
 
-module Mult4x4(clk, rst, start, done, a, b, out)
+module Mult4x4(clk, rst, start, done, a, b, out);
     input clk, rst, start;
     input [3:0] a, b;
     output done;
