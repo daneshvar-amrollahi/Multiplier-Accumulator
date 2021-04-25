@@ -78,8 +78,8 @@ module complexMult4x4_CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel
 	
 	assign sub = (~ps[3] & ps[2] & ~ps[1] & ps[0]);
 	
-	assign ldR = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]);
-	assign ldI = (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]);
+	assign ldR = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]); //3, 5
+	assign ldI = (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); //7, 9
 	
 	assign initI = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
 	assign initR = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
@@ -150,5 +150,5 @@ module complexMult4x4_tb();
         #500;
         $stop;
 	end
-	endmodule
+endmodule
 
