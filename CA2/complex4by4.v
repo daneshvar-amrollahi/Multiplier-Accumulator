@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-module mult3_DP(clk, rst, a, b, ldx, ldz, ldy, ldw, sel1, sel2, 
+module complexMult4x4_DP(clk, rst, a, b, ldx, ldz, ldy, ldw, sel1, sel2, 
 			 start4x4, sel3, sub, initR, initI, ldR, ldI, out, done4x4);
 			
 	input [7:0]a, b;
@@ -40,7 +40,7 @@ module mult3_DP(clk, rst, a, b, ldx, ldz, ldy, ldw, sel1, sel2,
 endmodule
 
 
-module mult3_CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel2,
+module complexMult4x4_CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel2,
 				sel3, sub, initI ,initR, ldR, ldI, done, start4x4);
 	
 	input  clk, rst, done4x4, start;
@@ -91,7 +91,7 @@ module mult3_CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel2,
 	
 endmodule
 
-module mult3(clk, rst, start, a, b, out, done, outReal, outImag);
+module complexMult4x4(clk, rst, start, a, b, out, done, outReal, outImag);
 
 	input clk, rst, start;
 	input  [7:0] a, b;
@@ -102,16 +102,16 @@ module mult3(clk, rst, start, a, b, out, done, outReal, outImag);
 	wire ldx, ldz, ldy, ldw, sel1, sel2, done4x4, 
 		 start4x4, sel3, sub, initR, initI, ldR, ldI;
 
-	mult3_DP DP(clk, rst, a, b, ldx, ldz, ldy, ldw, sel1, sel2, 
+	complexMult4x4_DP DP(clk, rst, a, b, ldx, ldz, ldy, ldw, sel1, sel2, 
 			 start4x4, sel3, sub, initR, initI, ldR, ldI, out, done4x4);
-	mult3_CU CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel2,
+	complexMult4x4_CU CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel2,
 				sel3, sub, initI ,initR, ldR, ldI, done, start4x4);
 
     assign outReal = out[15:8];
     assign outImag = out[7:0];
 endmodule
 	
-module mult3_tb();
+module complexMult4x4_tb();
 
 	reg[7:0] a, b;
 	reg clk = 1, rst, start;
@@ -119,7 +119,7 @@ module mult3_tb();
 	wire [15:0] out;
     wire [7:0] outReal, outImag;
 	wire done;
-	mult3 MUT(clk, rst, start, a, b, out, done, outReal, outImag);
+	complexMult4x4 MUT(clk, rst, start, a, b, out, done, outReal, outImag);
 	
 	always begin
         #8; clk = ~clk;
