@@ -40,7 +40,7 @@ module MAC_DP(clk, rst, x0, x1, x2, x3, y0, y1, y2, y3, ans,
 
     wire [9:0] adder_real_in, adder_imag_in;
     assign adder_real_in = {cmpxMultReal[7], cmpxMultReal[7], cmpxMultReal};
-    assign adder_imag_in = {cmpxMultImag[7], cmpxMultImag[7], cmpxMultImag};
+    assign adder_imag_in = {2'b0, cmpxMultImag};
 
     wire [19:0] adder_in_1, adder_in_2;
     wire [19:0] adder_out;
@@ -185,3 +185,4 @@ module MAC_TB();
         $stop;
 	end
 endmodule
+
