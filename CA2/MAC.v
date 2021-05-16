@@ -108,17 +108,17 @@ module MAC_CU(clk, rst, start, done3,
     assign init_re = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
     assign init_imag = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
 
-    assign sel_xi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]); //8, 4 yekan
-    assign sel_xi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]); //8, 6 dogan!
+    assign sel_xi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]); 
+    assign sel_xi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]); 
 
     assign sel_yi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]);
     assign sel_yi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]);
 
-    assign ld_re = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]) | //3, 5
-                   (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); //7, 9
+    assign ld_re = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]) | 
+                   (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); 
 
-    assign ld_imag = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]) | //3, 5
-                   (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); //7, 9
+    assign ld_imag = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]) | 
+                   (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); 
 
 endmodule
 
@@ -164,8 +164,7 @@ module MAC_TB();
     always begin
         #8; clk = ~clk;
     end
-    //(a, b) * (c, d) = (a + bj)(c + dj) += (ac - bd, ad + bc)
-        //0 <= a, b, c, d <= 7
+        //(a, b) * (c, d) = (a + bj)(c + dj) += (ac - bd, ad + bc)
 
         //(2, 3) * (2, 1) = (1, 8)
         //(2, 2) * (1, 2) = (-2, 6)
