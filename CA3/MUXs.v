@@ -1,3 +1,31 @@
+module Mux4to1 #(parameter N)(
+    a, 
+    b,
+    c,
+    d, 
+    s, 
+    out
+);
+    input	[N - 1 : 0] a, b, c, d;
+    input 	[1 : 0] s; 
+    output	[N - 1 : 0] out;
+
+    genvar i;
+    generate 
+        for (i = 0 ; i < N ; i = i + 1)
+        begin
+            MUX4to1_1b Mi(
+                .a(a[i]), 
+                .b(b[i]), 
+                .c(c[i]),
+                .d(d[i]),  
+                .sel(s), 
+                .out(out[i])
+            );
+        end
+    endgenerate
+
+endmodule
 
 module MUX4to1_1b(
     a, 
