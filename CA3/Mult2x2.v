@@ -13,42 +13,50 @@ module Mult2x2(
         .out(out[0]) 
     );
 
-    wire a1_not;
-    NOT NOT_a1(a[1], a1_not);
+    wire b1_not;
+    NOT NOT_b0(b[1], b1_not);
 
-    wire b0_not;
-    NOT NOT_b0(b[0], b0_not);
+    wire a0_not;
+    NOT NOT_a0(a[0], a0_not);
 
     C2 C2_out1(
         .D0(1'b1),
         .D1(1'b0),
         .D2(1'b0),
-        .D3(a[0]),
-        .A1(a1_not),
-        .B1(b0_not),
-        .A0(b[1]),
-        .B0(a[0]),
+        .D3(1'b1),
+        .A1(a0_not),
+        .B1(b1_not),
+        .A0(a[1]),
+        .B0(b[0]),
         .out(out[1])
-    );
-
-    wire a0_not;
-    NOT NOT_a0(a[0], a0_not);
+    );    
+    
+    wire j = ( a[1] & b[1] & ~a[0] ) | (a[1] & ~b[0] & b[1]);
     C2 C2_out2(
         .D0(1'b0),
         .D1(1'b0),
         .D2(b[1]),
-        .D3(a0_not),
+        .D3(1'b0),
         .A1(a[1]),
-        .B1(1'b0), //S1 = a[1]
-        .A0(1'b1),
-        .B0(b[0]), //S0 = b[0]
+        .B1(1'b0), 
+        .A0(out[0]),
+        .B0(1'b1), 
         .out(out[2])
     );
 
-    wire and_a1_b1;
-    AND AND_a1_b1(a[1], b[1], and_a1_b1);
-    
-    AND AND_out0_a1b1(out[0], and_a1_b1, out[3]);
+    C2 C2_out3(
+        .D0(1'b0),
+        .D1(1'b0),
+        .D2(1'b0),
+        .D3(out[0]),
+        .A1(b[1]),
+        .B1(1'b0),
+        .A0(a[1]),
+        .B0(1'b1),
+        .out(out[3])
+    );
+
+
 endmodule
 
 module mult2x2_tb();
