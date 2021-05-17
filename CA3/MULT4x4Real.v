@@ -38,14 +38,14 @@ module Mult4x4_DP(
     );  
     
     wire [1:0] mux_a_out, mux_b_out;
-    MUX2to1_2b mux_a(
+    Mux2to1 #(.N(2)) mux_a(
         .a(a_out[1:0]), 
         .b(a_out[3:2]), 
         .s(sel_a), 
         .out(mux_a_out)
     );
 
-    MUX2to1_2b mux_b(
+    Mux2to1 #(.N(2)) mux_b(
         .a(b_out[1:0]), 
         .b(b_out[3:2]), 
         .s(sel_b), 

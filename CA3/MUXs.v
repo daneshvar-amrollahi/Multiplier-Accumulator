@@ -1,3 +1,4 @@
+
 module MUX4to1_1b(
     a, 
     b, 
@@ -40,6 +41,33 @@ module MUX2to1_1b(
   
 endmodule
 
+module Mux2to1 #(parameter N)(
+    a, 
+    b, 
+    s, 
+    out
+);
+    input	[N - 1 : 0] a, b;
+    input 	s; 
+    output	[N - 1 : 0] out;
+
+    genvar i;
+    generate 
+        for (i = 0 ; i < N ; i = i + 1)
+        begin
+            MUX2to1_1b Mi(
+                .a(a[i]), 
+                .b(b[i]), 
+                .s(s), 
+                .out(out[i])
+            );
+        end
+    endgenerate
+
+endmodule
+
+
+
 module MUX3to1_1b(
     a, 
     b, 
@@ -63,36 +91,8 @@ module MUX3to1_1b(
   
 endmodule
 
-module MUX2to1_2b(
-    a, 
-    b, 
-    s, 
-    out
-);
   
-    input [1 : 0] a, b;
-    input s;
-
-    output [1 : 0] out;
-
-    MUX2to1_1b B0(
-        a[0], 
-        b[0], 
-        s, 
-        out[0]
-    );
-
-    MUX2to1_1b B1(
-        a[1], 
-        b[1], 
-        s, 
-        out[1]
-    );
-  
-endmodule
-  
-  
-  module MUX3to1_8b(
+module MUX3to1_8b(
     a, 
     b, 
     c, 
@@ -119,8 +119,3 @@ endmodule
     endgenerate
 
 endmodule
-  
-  
-  
-  
-  
