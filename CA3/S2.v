@@ -1,4 +1,6 @@
 module S2(
+    CLK,
+    CLR,
     D0,
     D1,
     D2,
@@ -7,11 +9,9 @@ module S2(
     B1,
     A0,
     B0,
-    CLR,
-    CLK,
     S2_out
 );
-    input D0, D1, D2, D3, A1, B1, A0, B0, CLR, CLK;
+    input CLK, CLR, D0, D1, D2, D3, A1, B1, A0, B0;
     output S2_out;
 
     wire S1;

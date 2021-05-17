@@ -8,7 +8,7 @@ module DFF(
     input d, clk, clr;
     output reg out;
 
-    always @(posedge clk)
+    always @(posedge clk, posedge clr)
     begin
         if (clr)
             out <= 1'b0;

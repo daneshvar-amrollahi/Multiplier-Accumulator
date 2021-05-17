@@ -3,14 +3,14 @@ module C2(
     D1,
     D2,
     D3,
-    A1,
-    B1,
     A0,
+    A1,
     B0,
+    B1,
     out
 );
 
-    input D0, D1, D2, D3, A1, B1, A0, B0;
+    input D0, D1, D2, D3, A0, A1, B0, B1;
     output out;
 
     wire S1 = A1 | B1;
