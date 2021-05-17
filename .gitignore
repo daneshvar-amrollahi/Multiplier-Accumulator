@@ -30,3 +30,5 @@ vsim.dbg
 
 *.zip
 # End of https://www.toptal.com/developers/gitignore/api/modelsim
+
+/CA3/work/*
