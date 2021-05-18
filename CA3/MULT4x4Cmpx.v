@@ -195,20 +195,22 @@ module Mult4x4Cmpx_CU(
 // NS
 //a -> ps[0], c-> ps[2]
 
-    wire a_not, c_not;
-    wire u1, u2, u3, v1, v2;
+    wire a_not, c_not, b_not;
+    wire u1, u2, u3, v1;
     
     NOT anot(
         .a(ps[0]),
         .out(a_not)
         );
     NOT cnot(
-        .a(ps[3]),
+        .a(ps[2]),
         .out(c_not)
         );
-        
-    //ns[3]
     
+    //ns[3]
+    //assign ns[3] = (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]);
+   // assign ns[2] = (~ps[3] & ps[2] & ~ps[1]) | (~ps[3] & ps[2] & ~ps[0]) | (~ps[3] & ~ps[2] & ps[1] & ps[0]);
+
     C1 U1u(
         .A0(ps[1]),
         .A1(1'b0),
@@ -220,6 +222,7 @@ module Mult4x4Cmpx_CU(
         .S1(c_not),
         .F(u1)
         );
+		
     C1 U2u(
         .A0(ps[3]),
         .A1(1'b0),
@@ -273,44 +276,33 @@ module Mult4x4Cmpx_CU(
         );
         
     //ns0
-    
-    C1 v1u(
-        .A0(1'b0),
-        .A1(done4x4),
-        .SA(1'b1),
-        .B0(1'b0),
+	C1 v1u(
+        .A0(ps[3]),
+        .A1(ps[3]),
+        .SA(1'b0),
+        .B0(1'b1),
         .B1(1'b1),
-        .SB(1'b1),
-        .S0(ps[3]),
-        .S1(1'b0),
+        .SB(1'b0),
+        .S0(ps[1]),
+        .S1(ps[2]),
         .F(v1)
         );
-        
-        
-    C1 v2u(
-        .A0(1'b0),
-        .A1(start),
-        .SA(1'b1),
-        .B0(1'b0),
-        .B1(done4x4),
-        .SB(1'b1),
-        .S0(ps[3]),
+		
+    C1 ns0u(
+        .A0(start),
+        .A1(1'b0),
+        .SA(ps[0]),
+        .B0(done4x4),
+        .B1(1'b0),
+        .SB(ps[0]),
+        .S0(v1),
         .S1(1'b0),
-        .F(v2)
+        .F(ns[0])
         );
+    
         
-    C2 ns0u(
-        .D0(v1),
-        .D1(v2),
-        .D2(1'b0),
-        .D3(1'b0),
-        .A0(ps[0]),
-        .A1(ps[1]),
-        .B0(1'b1),
-        .B1(ps[2]),
-        .out(ns[0])
-        );
         
+   
     
     //output signals
     
@@ -347,6 +339,8 @@ module Mult4x4Cmpx_CU(
         .S1(ps[1]),
         .F(sel1)
         );
+	
+
         
     //sel2
     
@@ -375,6 +369,10 @@ module Mult4x4Cmpx_CU(
         .S1(ps[3]),
         .F(sel3)
         );
+		
+	//assign sel3 = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]);
+
+
     assign ldR = sel3;
     //done
     
@@ -391,7 +389,8 @@ module Mult4x4Cmpx_CU(
         );
         
     //ldI
-    
+    //assign ldI = (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); //7, 9
+
     C1 u3u(
         .A0(1'b0),
         .A1(ps[3]),
@@ -423,11 +422,11 @@ module Mult4x4Cmpx_CU(
         .A0(1'b0),
         .A1(1'b0),
         .SA(1'b0),
-        .B0(1'b0),
-        .B1(1'b1),
-        .SB(1'b1),
-        .S0(ldR),
-        .S1(ldI),
+        .B0(ps[0]),
+        .B1(1'b0),
+        .SB(ps[3]),
+        .S0(1'b1),
+        .S1(1'b1),
         .F(start4x4)
         );
         
@@ -437,7 +436,7 @@ module Mult4x4Cmpx_CU(
     
     C1 subu(
         .A0(1'b0),
-        .A1(ps[1]),
+        .A1(ps[2]),
         .SA(ps[0]),
         .B0(1'b0),
         .B1(1'b0),
