@@ -108,11 +108,11 @@ module MAC_CU(clk, rst, start, done3,
     assign init_re = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
     assign init_imag = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
 
-    assign sel_xi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]); 
-    assign sel_xi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]); 
+    assign sel_xi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]); //8, 4 
+    assign sel_xi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]); //8, 6
 
-    assign sel_yi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]);
-    assign sel_yi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]);
+    assign sel_yi[0] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ~ps[0]); //8, 4
+    assign sel_yi[1] = (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]); //8, 6
 
     assign ld_re = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]) | 
                    (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ps[0]); 

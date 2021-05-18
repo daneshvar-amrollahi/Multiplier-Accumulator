@@ -195,7 +195,7 @@ module Mult4x4Cmpx_CU(
 // NS
 //a -> ps[0], c-> ps[2]
 
-    wire a_not, c_not, b_not;
+    wire a_not, c_not;
     wire u1, u2, u3, v1;
     
     NOT anot(
@@ -208,8 +208,6 @@ module Mult4x4Cmpx_CU(
         );
     
     //ns[3]
-    //assign ns[3] = (~ps[3] & ps[2] & ps[1] & ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]);
-   // assign ns[2] = (~ps[3] & ps[2] & ~ps[1]) | (~ps[3] & ps[2] & ~ps[0]) | (~ps[3] & ~ps[2] & ps[1] & ps[0]);
 
     C1 U1u(
         .A0(ps[1]),

@@ -71,8 +71,8 @@ module complexMult4x4_CU(clk, rst, start, done4x4, ldx, ldy, ldz, ldw, sel1, sel
 	assign ldz = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
 	assign ldw = (~ps[3] & ~ps[2] & ~ps[1] & ps[0]);
 	
-	assign sel1 = (~ps[3] & ps[2] & ~ps[1] & ~ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]);
-	assign sel2 = (~ps[3] & ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]);
+	assign sel1 = (~ps[3] & ps[2] & ~ps[1] & ~ps[0]) | (ps[3] & ~ps[2] & ~ps[1] & ~ps[0]); //4, 8
+	assign sel2 = (~ps[3] & ps[2] & ~ps[1] & ~ps[0]) | (~ps[3] & ps[2] & ps[1] & ~ps[0]); //4, 6
 	
 	assign sel3 = (~ps[3] & ~ps[2] & ps[1] & ps[0]) | (~ps[3] & ps[2] & ~ps[1] & ps[0]);
 	
